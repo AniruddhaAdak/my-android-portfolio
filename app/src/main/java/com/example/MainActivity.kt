@@ -67,11 +67,24 @@ class MainActivity : ComponentActivity() {
     enableEdgeToEdge()
     setContent {
       MyApplicationTheme(darkTheme = true, dynamicColor = false) {
+        val backgroundGradient = Brush.verticalGradient(
+          colors = listOf(
+            Color(0xFF0C0907), // Deepest warm obsidian black
+            Color(0xFF21150A), // Deep warm toasted hazelnut amber-espresso glow
+            Color(0xFF0C0907)  // Deepest warm obsidian black
+          )
+        )
         Surface(
           modifier = Modifier.fillMaxSize(),
-          color = ElegantDarkBg
+          color = Color.Transparent
         ) {
-          PortfolioScreen()
+          Box(
+            modifier = Modifier
+              .fillMaxSize()
+              .background(backgroundGradient)
+          ) {
+            PortfolioScreen()
+          }
         }
       }
     }
@@ -105,9 +118,9 @@ fun PortfolioScreen(viewModel: PortfolioViewModel = viewModel()) {
 
   // Dynamic Accent Theme Colors based on Persona hot-swap Shifter selection!
   val activeAccentColor = when (selectedPersona) {
-    DeveloperTone.PRAGMATIC -> ElegantDarkPrimary // Rich Scarlet Coral Red
-    DeveloperTone.CREATIVE -> Color(0xFF00FF87)   // Emerald Lime Green
-    DeveloperTone.ACCELERATED -> Color(0xFFFFCC00) // Electric Cyber Amber Gold
+    DeveloperTone.PRAGMATIC -> ElegantDarkPrimary // Bright Glowing Amber Gold (0xFFFBBF24)
+    DeveloperTone.CREATIVE -> Color(0xFFF97316)   // Radiant Sunset Orange (0xFFF97316)
+    DeveloperTone.ACCELERATED -> Color(0xFFEA580C) // Burning Deep Orange (0xFFEA580C)
   }
 
   // Toast recommendation acknowledgement
@@ -119,6 +132,7 @@ fun PortfolioScreen(viewModel: PortfolioViewModel = viewModel()) {
   }
 
   Scaffold(
+    containerColor = Color.Transparent,
     bottomBar = {
       NavigationBar(
         containerColor = ElegantDarkSurface,
@@ -401,7 +415,7 @@ fun HeroHeaderSection(accentColor: Color) {
       .testTag("hero_header_card"),
     shape = RoundedCornerShape(28.dp),
     colors = CardDefaults.cardColors(containerColor = ElegantDarkSurface),
-    border = BorderStroke(1.5.dp, Brush.horizontalGradient(listOf(accentColor, Color(0xFF381E72))))
+    border = BorderStroke(1.5.dp, Brush.horizontalGradient(listOf(accentColor, ElegantDarkTertiary)))
   ) {
     Column(
       modifier = Modifier
@@ -427,7 +441,7 @@ fun HeroHeaderSection(accentColor: Color) {
             Box(
               modifier = Modifier
                 .size(8.dp)
-                .background(Color(0xFF00FF87), CircleShape)
+                .background(Color(0xFFFBBF24), CircleShape)
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text("Open to Roles", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.SansSerif)
@@ -455,7 +469,7 @@ fun HeroHeaderSection(accentColor: Color) {
             // Rotating back gradient
             drawCircle(
               brush = Brush.sweepGradient(
-                colors = listOf(accentColor, Color(0xFF381E72), accentColor),
+                colors = listOf(accentColor, ElegantDarkTertiary, accentColor),
                 center = centerOffset
               ),
               radius = baseRadius,
